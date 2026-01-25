@@ -1,5 +1,4 @@
-import { MessageCircle, Linkedin, Instagram, Download, Mail } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { MessageCircle, Linkedin, Instagram, Mail } from "lucide-react";
 import logoIcon from "@/assets/logo-cmi-icon.png";
 
 const WHATSAPP_URL = "https://wa.me/51990292579";
@@ -47,28 +46,10 @@ export function Footer() {
             </a>
           </div>
 
-          {/* Actions */}
+          {/* Social links */}
           <div>
-            <h4 className="font-semibold mb-4">Recursos</h4>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-white/80 hover:text-white hover:bg-white/10 p-0 h-auto mb-3"
-              asChild
-            >
-              <a
-                href="/assets/lineas-de-producto.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
-                <Download className="h-4 w-4" />
-                Descargar líneas de producto
-              </a>
-            </Button>
-
-            {/* Social links */}
-            <div className="flex gap-3 mt-4">
+            <h4 className="font-semibold mb-4">Síguenos</h4>
+            <div className="flex gap-3">
               <a
                 href={WHATSAPP_URL}
                 target="_blank"
