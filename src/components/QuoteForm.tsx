@@ -1,74 +1,41 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, CheckCircle2, Mail } from "lucide-react";
+import { Send, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
-
-const requirementTypes = [
-  "Salud",
-  "Limpieza",
-  "Laboratorio",
-  "Plásticos",
-  "Logística",
-  "Licitaciones",
-];
 
 interface FormData {
   nombre: string;
-  empresa: string;
-  ruc: string;
-  correo: string;
   telefono: string;
-  tipoRequerimiento: string;
+  correo: string;
   mensaje: string;
-  plazo: string;
-  aceptaContacto: boolean;
 }
+
+const WHATSAPP_URL = "https://wa.me/51990292579";
 
 export function QuoteForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     nombre: "",
-    empresa: "",
-    ruc: "",
-    correo: "",
     telefono: "",
-    tipoRequerimiento: "",
+    correo: "",
     mensaje: "",
-    plazo: "",
-    aceptaContacto: false,
   });
 
-  const generateMailto = () => {
-    const subject = encodeURIComponent("Cotización rápida – CMI General Solutions");
-    const body = encodeURIComponent(
-      `Nombre: ${formData.nombre}
-Empresa/Entidad: ${formData.empresa}
-RUC: ${formData.ruc || "No especificado"}
-Correo: ${formData.correo}
-Teléfono: ${formData.telefono}
-Tipo de requerimiento: ${formData.tipoRequerimiento}
-Mensaje: ${formData.mensaje}
-Plazo: ${formData.plazo}`
+  const generateWhatsAppUrl = () => {
+    const text = encodeURIComponent(
+      `Hola CMI General Solutions, quiero una cotización.\n\nNombre: ${formData.nombre}\nTeléfono: ${formData.telefono}\nCorreo: ${formData.correo}\nMensaje: ${formData.mensaje}`
     );
-    return `mailto:Tcelis@cmigeneralsolutions.com?subject=${subject}&body=${body}`;
+    return `${WHATSAPP_URL}?text=${text}`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.aceptaContacto) {
-      toast.error("Por favor acepta ser contactado para continuar.");
+    if (!formData.nombre.trim() || !formData.telefono.trim() || !formData.correo.trim() || !formData.mensaje.trim()) {
+      toast.error("Por favor completa todos los campos.");
       return;
     }
 
@@ -81,14 +48,16 @@ Plazo: ${formData.plazo}`
       });
     } catch (error) {
       // API not connected yet, that's okay
-      console.log("Lead saved for later processing");
     }
+
+    // Open WhatsApp with the form data
+    window.open(generateWhatsAppUrl(), "_blank");
 
     setIsSubmitted(true);
     toast.success("¡Gracias! Te contactaremos a la brevedad.");
   };
 
-  const handleChange = (field: keyof FormData, value: string | boolean) => {
+  const handleChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -126,7 +95,7 @@ Plazo: ${formData.plazo}`
   return (
     <section id="cotizacion" className="section-padding bg-primary">
       <div className="section-container">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -151,10 +120,10 @@ Plazo: ${formData.plazo}`
             onSubmit={handleSubmit}
             className="bg-white rounded-3xl p-6 md:p-10 shadow-lg"
           >
-            <div className="grid sm:grid-cols-2 gap-5">
+            <div className="space-y-5">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Nombre y apellido *
+                  Nombre *
                 </label>
                 <Input
                   required
@@ -162,29 +131,20 @@ Plazo: ${formData.plazo}`
                   value={formData.nombre}
                   onChange={(e) => handleChange("nombre", e.target.value)}
                   className="h-12"
+                  maxLength={100}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Empresa / Entidad *
+                  Teléfono *
                 </label>
                 <Input
                   required
-                  placeholder="Nombre de la empresa o entidad"
-                  value={formData.empresa}
-                  onChange={(e) => handleChange("empresa", e.target.value)}
+                  placeholder="999 999 999"
+                  value={formData.telefono}
+                  onChange={(e) => handleChange("telefono", e.target.value)}
                   className="h-12"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  RUC (opcional)
-                </label>
-                <Input
-                  placeholder="20XXXXXXXXX"
-                  value={formData.ruc}
-                  onChange={(e) => handleChange("ruc", e.target.value)}
-                  className="h-12"
+                  maxLength={20}
                 />
               </div>
               <div>
@@ -198,97 +158,28 @@ Plazo: ${formData.plazo}`
                   value={formData.correo}
                   onChange={(e) => handleChange("correo", e.target.value)}
                   className="h-12"
+                  maxLength={100}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Teléfono *
-                </label>
-                <Input
-                  required
-                  placeholder="999 999 999"
-                  value={formData.telefono}
-                  onChange={(e) => handleChange("telefono", e.target.value)}
-                  className="h-12"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Tipo de requerimiento *
-                </label>
-                <Select
-                  value={formData.tipoRequerimiento}
-                  onValueChange={(value) => handleChange("tipoRequerimiento", value)}
-                >
-                  <SelectTrigger className="h-12">
-                    <SelectValue placeholder="Selecciona una categoría" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {requirementTypes.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="sm:col-span-2">
                 <label className="block text-sm font-medium text-foreground mb-2">
                   Mensaje: ¿Qué necesitas? *
                 </label>
                 <Textarea
                   required
-                  placeholder="Describe tu requerimiento con el mayor detalle posible..."
+                  placeholder="Describe tu requerimiento..."
                   value={formData.mensaje}
                   onChange={(e) => handleChange("mensaje", e.target.value)}
                   className="min-h-[120px]"
+                  maxLength={1000}
                 />
-              </div>
-              <div className="sm:col-span-2">
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Plazo (fecha o texto)
-                </label>
-                <Input
-                  placeholder="Ej: 15 de febrero / Lo antes posible"
-                  value={formData.plazo}
-                  onChange={(e) => handleChange("plazo", e.target.value)}
-                  className="h-12"
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <div className="flex items-center gap-3">
-                  <Checkbox
-                    id="acepta"
-                    checked={formData.aceptaContacto}
-                    onCheckedChange={(checked) =>
-                      handleChange("aceptaContacto", checked as boolean)
-                    }
-                  />
-                  <label
-                    htmlFor="acepta"
-                    className="text-sm text-muted-foreground cursor-pointer"
-                  >
-                    Acepto ser contactado por WhatsApp o correo electrónico
-                  </label>
-                </div>
               </div>
             </div>
 
-            <div className="mt-8 flex flex-col sm:flex-row gap-4">
-              <Button type="submit" className="btn-cta flex-1">
+            <div className="mt-8">
+              <Button type="submit" className="btn-cta w-full">
                 <Send className="mr-2 h-5 w-5" />
-                Enviar y recibir cotización
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="btn-secondary flex-1"
-                asChild
-              >
-                <a href={generateMailto()}>
-                  <Mail className="mr-2 h-5 w-5" />
-                  Enviar por correo
-                </a>
+                Enviar cotización
               </Button>
             </div>
           </motion.form>
