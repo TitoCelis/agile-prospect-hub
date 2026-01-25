@@ -5,11 +5,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import logoIcon from "@/assets/logo-cmi-icon.png";
 
 const navLinks = [
+  { label: "Nosotros", href: "#nosotros" },
   { label: "Servicios", href: "#servicios" },
   { label: "Licitaciones", href: "#licitaciones" },
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Clientes", href: "#clientes" },
   { label: "Cotización rápida", href: "#cotizacion" },
+  { label: "Clientes", href: "#clientes" },
   { label: "Contacto", href: "#contacto" },
 ];
 
@@ -42,13 +42,13 @@ export function Header() {
       }`}
     >
       <div className="section-container">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-18 md:h-24">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3">
             <img
               src={logoIcon}
               alt="CMI General Solutions"
-              className="h-10 w-auto"
+              className="h-12 w-auto"
             />
             <div className="hidden sm:flex flex-col">
               <span className="font-heading font-bold text-foreground text-lg leading-tight">
