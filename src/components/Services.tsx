@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import serviceHealth from "@/assets/service-health.jpg";
 import serviceCleaning from "@/assets/service-cleaning.jpg";
@@ -91,19 +91,22 @@ export function Services() {
           ))}
         </div>
 
-        {/* PDF CTA */}
-        <div className="text-center mt-10">
-          <Button variant="outline" className="btn-secondary" asChild>
-            <a
-              href="/assets/lineas-de-producto.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Download className="mr-2 h-5 w-5" />
-              Ver líneas de producto (PDF)
-            </a>
+        {/* CTA to request quote */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="text-center mt-10 p-6 bg-primary/5 rounded-2xl border border-primary/10"
+        >
+          <p className="text-muted-foreground mb-4">
+            <strong className="text-foreground">¿Necesitas más información?</strong> Solicita una cotización y te enviamos el detalle completo de nuestras líneas de producto.
+          </p>
+          <Button className="btn-primary" onClick={scrollToQuote}>
+            Pedir cotización detallada
+            <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
