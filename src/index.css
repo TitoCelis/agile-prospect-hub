@@ -227,16 +227,34 @@
   /* Client Logo Tiles */
   .logo-tile {
     @apply flex items-center justify-center bg-card border border-border 
-           rounded-xl p-4 md:p-5 transition-all duration-200;
+           rounded-2xl transition-all duration-200;
+    height: 90px;
+    padding: 10px;
   }
 
-  .logo-tile:hover .logo-image {
-    @apply opacity-100;
+  @media (min-width: 768px) {
+    .logo-tile {
+      height: 110px;
+      padding: 12px;
+    }
+  }
+
+  .logo-tile:hover {
+    border-color: hsl(var(--primary));
+    box-shadow: 0 4px 16px -4px hsla(186, 47%, 40%, 0.15);
   }
 
   .logo-image {
-    @apply h-7 md:h-9 w-auto max-w-[120px] md:max-w-[140px] object-contain
-           grayscale opacity-85 transition-all duration-200;
+    @apply w-auto object-contain transition-all duration-200;
+    max-height: 42px;
+    max-width: 160px;
+  }
+
+  @media (min-width: 768px) {
+    .logo-image {
+      max-height: 56px;
+      max-width: 220px;
+    }
   }
 }
 
