@@ -59,7 +59,7 @@ export function Hero() {
               className="btn-cta text-base px-8 py-4"
               onClick={scrollToQuote}
             >
-              Cotización rápida (1 minuto)
+              Cotización rápida
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button size="lg" className="btn-whatsapp text-base px-8 py-4" asChild>
