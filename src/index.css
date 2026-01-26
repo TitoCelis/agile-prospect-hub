@@ -223,6 +223,21 @@
     @apply w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center
            text-primary mb-4;
   }
+
+  /* Client Logo Tiles */
+  .logo-tile {
+    @apply flex items-center justify-center bg-card border border-border 
+           rounded-xl p-4 md:p-5 transition-all duration-200;
+  }
+
+  .logo-tile:hover .logo-image {
+    @apply opacity-100;
+  }
+
+  .logo-image {
+    @apply h-7 md:h-9 w-auto max-w-[120px] md:max-w-[140px] object-contain
+           grayscale opacity-85 transition-all duration-200;
+  }
 }
 
 @layer utilities {

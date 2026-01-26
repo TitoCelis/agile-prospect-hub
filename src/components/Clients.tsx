@@ -1,13 +1,20 @@
 import { motion } from "framer-motion";
 
+// Import client logos
+import logoOPS from "@/assets/clients/logo-ops.png";
+import logoOMS from "@/assets/clients/logo-oms.png";
+import logoBCR from "@/assets/clients/logo-bcr.png";
+import logoProductosForma from "@/assets/clients/logo-productos-forma.png";
+import logoZurece from "@/assets/clients/logo-zurece.png";
+import logoTgestiona from "@/assets/clients/logo-tgestiona.png";
+
 const clients = [
-  "OPS",
-  "EsSalud",
-  "Zurece",
-  "Gobiernos Regionales",
-  "Productos Forma",
-  "BCR",
-  "Tgestiona",
+  { name: "Organización Panamericana de la Salud", logo: logoOPS },
+  { name: "Organización Mundial de la Salud", logo: logoOMS },
+  { name: "Banco Central de Reserva del Perú", logo: logoBCR },
+  { name: "Productos Forma", logo: logoProductosForma },
+  { name: "Zurece", logo: logoZurece },
+  { name: "Tgestiona", logo: logoTgestiona },
 ];
 
 export function Clients() {
@@ -26,21 +33,24 @@ export function Clients() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto"
+          className="max-w-5xl mx-auto"
         >
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {/* Logo Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
             {clients.map((client, index) => (
               <motion.div
-                key={client}
+                key={client.name}
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05, duration: 0.4 }}
-                className="card-premium flex items-center justify-center py-6 px-4"
+                className="logo-tile group"
               >
-                <span className="font-semibold text-foreground text-center">
-                  {client}
-                </span>
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  className="logo-image"
+                />
               </motion.div>
             ))}
           </div>
